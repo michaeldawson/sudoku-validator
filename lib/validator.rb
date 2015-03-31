@@ -1,6 +1,8 @@
+require_relative 'puzzle'
+
 class Validator
   def initialize(puzzle_string)
-    @puzzle_string = puzzle_string
+    @puzzle ||= Puzzle.new(puzzle_string)
   end
 
   def self.validate(puzzle_string)
@@ -8,10 +10,16 @@ class Validator
   end
 
   def validate
-    # Start creating your solution here.
-    #
-    # It's likely that you'll want to have many more classes than this one that
-    # was provided for you. Don't be hesistant to extract new objects (and
-    # write tests for them).
+    if puzzle.valid? && puzzle.complete?
+      "This sudoku is valid."
+    elsif puzzle.valid?
+      "This sudoku is valid, but incomplete."
+    else
+      "This sudoku is invalid."
+    end
   end
+
+  private
+
+  attr_reader :puzzle
 end
